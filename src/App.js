@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import LogInForm from "./components/LogInForm";
+import SignUp from "./components/SignUp.js";
+import { Route, Routes } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import { ToastContainer } from "react-toastify";
+import Todo from "./components/Todo";
+import { UserContext } from "./helper/Context.js";
+import { useState } from "react";
+import { UserEmail } from "./helper/Context.js";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{ loggedIn, setLoggedIn }}>
+      <UserEmail.Provider value={{ userEmail, setUserEmail }}>
+        <div className="nav-container">
+          <NavBar className="nav" />
+        </div>
+        <Routes>
+          <Route path="/" element={<LogInForm />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/todo" element={<Todo />} />
+        </Routes>
+        <ToastContainer />
+      </UserEmail.Provider>{""}
+    </UserContext.Provider>
   );
 }
 
